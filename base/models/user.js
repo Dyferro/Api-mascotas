@@ -36,6 +36,11 @@ const UserSchema = new mongoose.Schema({
     enum: ["admin", "employee", "user"],
     default: "user",
   },
+  status: {
+    type: String,
+    enum: ["active", "unverified", "disabled"],
+    default: "active",
+  },
 });
 
 UserSchema.statics.create = function create(data) {
@@ -46,16 +51,28 @@ UserSchema.statics.show = async function show() {
   return await this.find();
 };
 
-UserSchema.statics.getUser = async function getUser(data) {
-  return await this.find({ _id: data });
+UserSchema.statics.getUser = async function getUser(id) {
+  const data = await this.findById(id);
+  if (data === null) {
+    throw new Error("Something bad happened.");
+  }
+  return data;
 };
 
 UserSchema.statics.updateUserById = async function updateUserById(id, data) {
-  return await this.findByIdAndUpdate(id, data);
+  return await this.findByIdAndUpdate(id, data, {
+    runValidators: true,
+    context: "query",
+    new: true,
+  });
 };
 
 UserSchema.statics.deleteUserById = async function deleteUserById(id) {
-  return await this.findByIdAndDelete(id);
+  return await this.findByIdAndUpdate(
+    id,
+    { status: "disabled" },
+    { new: true }
+  );
 };
 
 UserSchema.plugin(privatePaths);
