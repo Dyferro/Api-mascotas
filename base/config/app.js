@@ -11,6 +11,7 @@ const app = express();
 
 //
 app.use(bodyparser.json());
+
 app.use(controllers);
 
 //Database Conexion

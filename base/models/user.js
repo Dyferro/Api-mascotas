@@ -42,6 +42,22 @@ UserSchema.statics.create = function create(data) {
   return new this(data).save();
 };
 
+UserSchema.statics.show = async function show() {
+  return await this.find();
+};
+
+UserSchema.statics.getUser = async function getUser(data) {
+  return await this.find({ _id: data });
+};
+
+UserSchema.statics.updateUserById = async function updateUserById(id, data) {
+  return await this.findByIdAndUpdate(id, data);
+};
+
+UserSchema.statics.deleteUserById = async function deleteUserById(id) {
+  return await this.findByIdAndDelete(id);
+};
+
 UserSchema.plugin(privatePaths);
 UserSchema.plugin(uniqueValidator, {
   message: "{PATH} Should be unique",
