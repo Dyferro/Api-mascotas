@@ -26,5 +26,7 @@ app.use((err, req, res, next) => {
   res.json({ ok: false, err: err.message });
 });
 
+console.log(process.env.NODE_ENV);
+
 //Exports
 module.exports = app;
