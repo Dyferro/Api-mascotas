@@ -17,7 +17,7 @@ app.get(
   "/userslist",
   asyncHandler(async (req, res) => {
     const data = await User.show();
-    res.status(200).json({ ok: true, user: data });
+    res.status(200).json({ ok: true, data });
   })
 );
 
@@ -25,7 +25,7 @@ app.get(
   "/user/:_id",
   asyncHandler(async (req, res, next) => {
     const data = await User.getUser(req.params._id);
-    res.status(200).json({ ok: true, user: data });
+    res.status(200).json({ ok: true, data });
   })
 );
 

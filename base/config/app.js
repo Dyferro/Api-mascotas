@@ -1,7 +1,7 @@
 //Imports
-const express = require("express");
-const bodyparser = require("body-parser");
-const controllers = require("../controllers/user");
+import express from "express";
+import bodyparser from "body-parser";
+import controllers from "../controllers/user";
 
 require("./config");
 require("../../database/database");
@@ -25,8 +25,6 @@ app.use((err, req, res, next) => {
   res.status(err.code || 400);
   res.json({ ok: false, err: err.message });
 });
-
-console.log(process.env.NODE_ENV);
 
 //Exports
 module.exports = app;
