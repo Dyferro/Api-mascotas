@@ -8,7 +8,8 @@
         "dev": "nodemon --exec npm run babel-node index.js",
         "lint": "eslint .",
         "lint:fix": "eslint . --fix",
-        "test": "SET NODE_ENV=test&jest --runInBand --detectOpenHandles --forceExit"
+        "test": "SET NODE_ENV=test&jest --runInBand --detectOpenHandles --forceExit",
+        "dev:test": "SET NODE_ENV=test&nodemon --exec npm run babel-node index.js"
     },
     "keywords": [],
     "author": "Doina Yudth Ferro Fonseca",

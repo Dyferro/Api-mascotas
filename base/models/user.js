@@ -43,6 +43,15 @@ const UserSchema = new mongoose.Schema({
   },
 });
 
+UserSchema.pre('create', function (next) {
+  console.log('Antes de guardar');
+  next();
+});
+
+UserSchema.post('create', function () {
+  console.log('Despues de guardar');
+});
+
 UserSchema.statics.create = function create(data) {
   return new this(data).save();
 };
@@ -69,11 +78,32 @@ UserSchema.statics.updateUserById = async function updateUserById(id, data) {
 
 UserSchema.statics.deleteUserById = async function deleteUserById(id) {
   return await this.findByIdAndUpdate(
-    id,
-    { status: "disabled" },
-    { new: true }
+    id, {
+      status: "disabled"
+    }, {
+      new: true
+    }
   );
 };
+
+UserSchema.statics.loginUser = async function loginUser(data) {
+  const {
+    phone,
+    password
+  } = data;
+  const user = await this.findOne({
+    phone: phone
+  });
+  if (!user) {
+    throw new Error('User or password fail')
+  }
+
+  if (user.password !== password) {
+    throw new Error('Password fail')
+  }
+
+  return user;
+}
 
 UserSchema.plugin(privatePaths);
 UserSchema.plugin(uniqueValidator, {

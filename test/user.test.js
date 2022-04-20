@@ -3,13 +3,20 @@ import request from "supertest";
 import app from "../base/config/app";
 
 const user = {
-  name: "Veronica Ferro",
-  phone: 78963463,
-  email: "aqwed47c@gmail.com",
-  address: "Vlle 8 altos",
+  name: "Tyrion Ferro",
+  phone: 78963464523,
+  email: "aqwccd47c@gmail.com",
+  address: "Habana",
   city: "La Habana",
-  pasword: "1456987",
+  pasword: "1456980007",
 };
+
+const auth = {
+  phone: 78963464523,
+  pasword: "1456980007",
+};
+
+const _id = '625092b727481e3349615bc1';
 
 describe("Testing users funcionalities", () => {
   let server;
@@ -25,7 +32,7 @@ describe("Testing users funcionalities", () => {
   });
 
   it("Test para crear un nuevo usuario", async () => {
-    const res = await request(server).post("/create").send(user);
+    const res = await request(server).post('/create').send(user);
     expect(res.status).toEqual(201);
     expect(res.body).toEqual({
       ok: true,
@@ -43,7 +50,7 @@ describe("Testing users funcionalities", () => {
   });
 
   it("Obtener usuario por id", async () => {
-    const res = await request(server).get(`/user/${user._id}`);
+    const res = await request(server).get(`/user/${_id}`);
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({
       ok: true,
@@ -53,8 +60,10 @@ describe("Testing users funcionalities", () => {
 
   it("Modificar usuario", async () => {
     const res = await request(server)
-      .put(`/modifyuser/${user._id}`)
-      .send({ phone: 3654 });
+      .put(`/modifyuser/${_id}`)
+      .send({
+        phone: 3654
+      });
     expect(res.status).toEqual(201);
     expect(res.body).toEqual({
       ok: true,
@@ -63,11 +72,20 @@ describe("Testing users funcionalities", () => {
   });
 
   it("Eliminar usuario", async () => {
-    const res = await request(server).delete(`/deleteuser/${user._id}`);
+    const res = await request(server).delete(`/deleteuser/${_id}`);
     expect(res.status).toEqual(200);
     expect(res.body).toEqual({
       ok: true,
-      data: expect.any(Object),
+      user: expect.any(Object),
+    });
+  });
+
+  it('Test del login', async () => {
+    const res = await request(server).post('/login').send(auth);
+    expect(res.status).toEqual(200);
+    expect(res.body).toEqual({
+      ok: true,
+      user: expect.any(Object),
     });
   });
 });
